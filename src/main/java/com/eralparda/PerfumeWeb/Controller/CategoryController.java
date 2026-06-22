@@ -1,5 +1,6 @@
 package com.eralparda.PerfumeWeb.Controller;
 
+import com.eralparda.PerfumeWeb.DTO.CategoryRequest;
 import com.eralparda.PerfumeWeb.Entity.Category;
 import com.eralparda.PerfumeWeb.Service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +26,8 @@ public class CategoryController {
     }
 
     @PostMapping
-    public Category createCategory(@RequestBody Category category){
-        return categoryService.createCategory(category);
-    }
-
-    @PutMapping("/{id}")
-    public Category updateCategory(@PathVariable Long id,@RequestBody Category updatedCategory){
-        return categoryService.updateCategory(id,updatedCategory);
+    public Category createCategory(@RequestBody CategoryRequest request){
+        return categoryService.createCategory(request);
     }
 
     @DeleteMapping("/{id}")

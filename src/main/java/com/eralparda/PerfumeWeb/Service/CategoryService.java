@@ -1,5 +1,6 @@
 package com.eralparda.PerfumeWeb.Service;
 
+import com.eralparda.PerfumeWeb.DTO.CategoryRequest;
 import com.eralparda.PerfumeWeb.Entity.Category;
 import com.eralparda.PerfumeWeb.Exception.NotFoundException;
 import com.eralparda.PerfumeWeb.Repository.CategoryRepository;
@@ -23,14 +24,13 @@ public class CategoryService {
                 .orElseThrow(()->new NotFoundException("Category not found with id! " + id));
     }
 
-    public Category createCategory(Category category){
-        return categoryRepository.save(category);
-    }
-
-    public Category updateCategory(Long id,Category updatedCategory){
-        Category category = getCategoryById(id);
-        category.setName(updatedCategory.getName());
-        return categoryRepository.save(category);
+    public Category createCategory(CategoryRequest request){
+        if(request.getId() != null) {
+            Category category = getCategoryById(request.getId());
+            category.setName(request.getName());
+            return categoryRepository.save(category);
+        }
+        return categoryRepository.save(Category.toModel(request));
     }
 
     public void deleteCategory(Long id){
