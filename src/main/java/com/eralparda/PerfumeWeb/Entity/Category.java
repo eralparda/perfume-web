@@ -28,7 +28,6 @@ public class Category {
     public static Category toModel(CategoryRequest request){
         Category category = new Category();
         category.setName(request.getName());
-        category.setId(request.getId());
         return category;
     }
 }

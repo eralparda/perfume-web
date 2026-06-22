@@ -1,5 +1,6 @@
 package com.eralparda.PerfumeWeb.Controller;
 
+import com.eralparda.PerfumeWeb.DTO.NoteRequest;
 import com.eralparda.PerfumeWeb.Entity.Note;
 import com.eralparda.PerfumeWeb.Service.NoteService;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +26,8 @@ public class NoteController {
     }
 
     @PostMapping
-    public Note createNote(@RequestBody Note note){
-        return noteService.createNote(note);
-    }
-
-    @PutMapping("/{id}")
-    public Note updateNote(@PathVariable Long id,@RequestBody Note updatedNote){
-        return noteService.updateNote(id,updatedNote);
+    public Note createNote(@RequestBody NoteRequest request){
+        return noteService.createNote(request);
     }
 
     @DeleteMapping("/{id}")

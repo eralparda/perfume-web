@@ -1,5 +1,6 @@
 package com.eralparda.PerfumeWeb.Service;
 
+import com.eralparda.PerfumeWeb.DTO.NoteRequest;
 import com.eralparda.PerfumeWeb.Entity.Note;
 import com.eralparda.PerfumeWeb.Exception.NotFoundException;
 import com.eralparda.PerfumeWeb.Repository.NoteRepository;
@@ -23,14 +24,13 @@ public class NoteService {
                 .orElseThrow(()->new NotFoundException("Note not found with id! " + id));
     }
 
-    public Note createNote(Note note){
-        return noteRepository.save(note);
-    }
-
-    public Note updateNote(Long id,Note updatedNote){
-        Note note = getNoteById(id);
-        note.setName(updatedNote.getName());
-        return noteRepository.save(note);
+    public Note createNote(NoteRequest request){
+        if(request.getId()!=null){
+            Note note = getNoteById(request.getId());
+            note.setName(request.getName());
+            return noteRepository.save(note);
+        }
+        return noteRepository.save(Note.toModel(request));
     }
 
     public void deleteNote(Long id){
