@@ -25,6 +25,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
         return http
                 .csrf(csrf-> csrf.disable())
+                .cors(cors -> cors.configurationSource(request -> {
+                    var config = new org.springframework.web.cors.CorsConfiguration();
+                    config.setAllowedOrigins(java.util.List.of("http://localhost:5173"));
+                    config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE"));
+                    config.setAllowedHeaders(java.util.List.of("*"));
+                    return config;
+                }))
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex-> ex
                         .authenticationEntryPoint(jwtAuthEntryPoint)
@@ -36,10 +43,15 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/perfumes/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/categories/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/notes/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/brands/**").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/perfumes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/perfumes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/perfumes/**").hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/brands/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/brands/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/brands/**").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/categories/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/categories/**").hasRole("ADMIN")
@@ -51,9 +63,6 @@ public class SecurityConfig {
 
                         .requestMatchers("/users/**").hasRole("ADMIN")
 
-                        .requestMatchers("/orders/**").authenticated()
-
-                        .requestMatchers("/cart/**").authenticated()
 
                         .anyRequest().authenticated()
                 )
