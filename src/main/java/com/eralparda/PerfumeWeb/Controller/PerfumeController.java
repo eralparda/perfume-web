@@ -1,5 +1,7 @@
 package com.eralparda.PerfumeWeb.Controller;
 
+import com.eralparda.PerfumeWeb.DTO.PerfumeRequest;
+import com.eralparda.PerfumeWeb.Entity.Brand;
 import com.eralparda.PerfumeWeb.Entity.Perfume;
 import com.eralparda.PerfumeWeb.Service.PerfumeService;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +27,8 @@ public class PerfumeController {
     }
 
     @PostMapping
-    public Perfume createPerfume(@RequestBody Perfume perfume){
-        return perfumeService.createPerfume(perfume);
-    }
-
-    @PutMapping("/{id}")
-    public Perfume updatePerfume(@PathVariable Long id,@RequestBody Perfume updatedPerfume){
-        return perfumeService.updatePerfume(id,updatedPerfume);
+    public Perfume createPerfume(@RequestBody PerfumeRequest request){
+        return perfumeService.createPerfume(request);
     }
 
     @DeleteMapping("/{id}")
@@ -47,6 +44,16 @@ public class PerfumeController {
     @GetMapping("/category/{categoryId}")
     public List<Perfume> getByCategory(@PathVariable Long categoryId){
         return perfumeService.getByCategory(categoryId);
+    }
+
+    @GetMapping("/brand/{brandId}")
+    public List<Perfume> getByBrand(@PathVariable Long brandId){
+        return perfumeService.getByBrand(brandId);
+    }
+
+    @GetMapping("/note/{noteId}")
+    public  List<Perfume> getByNote(@PathVariable Long noteId){
+        return perfumeService.getByNote(noteId);
     }
 
     @GetMapping("/{perfumeId}/stock/{quantity}")

@@ -1,5 +1,6 @@
 package com.eralparda.PerfumeWeb.Entity;
 
+import com.eralparda.PerfumeWeb.DTO.PerfumeRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,14 +20,19 @@ public class Perfume {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String brand;
     private String description;
     private double price;
     private int stock;
     private String ml;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
     @ManyToMany
     @JoinTable(
             name = "perfume_notes",
@@ -34,4 +40,14 @@ public class Perfume {
             inverseJoinColumns = @JoinColumn(name = "note_id")
     )
     private List<Note> notes;
+
+    public static Perfume toModel(PerfumeRequest request) {
+        Perfume perfume = new Perfume();
+        perfume.setName(request.getName());
+        perfume.setDescription(request.getDescription());
+        perfume.setPrice(request.getPrice());
+        perfume.setStock(request.getStock());
+        perfume.setMl(request.getMl());
+        return perfume;
+    }
 }

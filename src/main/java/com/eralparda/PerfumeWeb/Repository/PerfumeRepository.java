@@ -10,4 +10,6 @@ import java.util.List;
 public interface PerfumeRepository extends JpaRepository<Perfume,Long> {
     List<Perfume> findByNameContaining(String name);
     List<Perfume> findByCategory_Id(Long categoryId);
+    List<Perfume> findByBrand_Id(Long brandId);
+    List<Perfume> findByNotes_Id(Long noteId);
 }
