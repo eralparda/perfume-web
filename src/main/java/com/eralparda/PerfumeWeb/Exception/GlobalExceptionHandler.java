@@ -25,11 +25,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<String> handleUserNotFound(UsernameNotFoundException ex){
-        return ResponseEntity.status(403).body(ex.getMessage());
+        return ResponseEntity.status(404).body(ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGeneral(Exception ex){
-        return ResponseEntity.status(500).body("Beklenmedik bir hata oluştu!");
+        return ResponseEntity.status(500).body(ex.getMessage());
     }
 }
