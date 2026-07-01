@@ -1,5 +1,6 @@
 package com.eralparda.PerfumeWeb.Controller;
 
+import com.eralparda.PerfumeWeb.DTO.UserRequest;
 import com.eralparda.PerfumeWeb.Entity.User;
 import com.eralparda.PerfumeWeb.Service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id,@RequestBody User updatedUser){
-        return userService.updateUser(id,updatedUser);
+    public User updateUser(@PathVariable Long id,@RequestBody UserRequest request){
+        return userService.updateUser(id,request);
     }
 
     @DeleteMapping("/{id}")

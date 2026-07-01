@@ -2,6 +2,7 @@ package com.eralparda.PerfumeWeb.Service;
 
 import  com.eralparda.PerfumeWeb.DTO.LoginRequest;
 import com.eralparda.PerfumeWeb.DTO.RegisterRequest;
+import com.eralparda.PerfumeWeb.DTO.UserRequest;
 import com.eralparda.PerfumeWeb.Entity.User;
 import com.eralparda.PerfumeWeb.Enum.Role;
 import com.eralparda.PerfumeWeb.Exception.BadRequestException;
@@ -67,16 +68,12 @@ public class UserService {
                 .orElseThrow(()-> new NotFoundException("User not found!"));
     }
 
-    public User createUser(User user){
-        return userRepository.save(user);
-    }
-
-    public User updateUser(Long id,User updatedUser){
+    public User updateUser(Long id, UserRequest request){
         User user = getUserById(id);
-        user.setUserName(updatedUser.getUserName());
-        user.setEmail(updatedUser.getEmail());
-        if(updatedUser.getPassword()!=null){
-            user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        user.setUserName(request.getUserName());
+        user.setEmail(request.getEmail());
+        if(request.getPassword()!=null){
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
         return userRepository.save(user);
     }

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,12 +23,24 @@ public class User {
     private Long id;
     private String userName;
     private String email;
+
     @JsonIgnore
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
+
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Order> orders;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_favorites",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "perfume_id")
+    )
+    @JsonIgnore
+    private List<Perfume> favorites = new ArrayList<>();
 
 }
